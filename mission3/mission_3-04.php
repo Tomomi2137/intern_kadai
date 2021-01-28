@@ -60,8 +60,6 @@
                         // file_open
                         $fp = fopen($filename,"a");
 
-                        $copyfile = 'copyfile3-4.txt';
-
                         // $filenameを$copyfileにコピー
                         copy($filename, $copyfile);
                         // print_r($filename);
@@ -104,8 +102,7 @@
                 // 処理開始
                 if(file_exists($filename)){
                     // file_open
-                    $fp = fopen($filename,"a"); 
-                    $copyfile = 'copyfile3-4.txt';
+                    $fp = fopen($filename,"a");
 
                     // $filenameを$copyfileにコピー
                     copy($filename, $copyfile);
@@ -133,7 +130,7 @@
                     // echo 'no file'; //fileがない場合にここに入る(確認済み)
                 }
             //編集フォーム
-            } elseif ($sendform=='editform'&& !empty($_POST['edit_num'])) {
+            } elseif ($sendform==='editform'&& !empty($_POST['edit_num'])) {
                 // 変数定義
                 $edit_num = $_POST['edit_num'];
 
@@ -183,7 +180,6 @@
     <form action="" method="post" name="deleteform">
         【　削除フォーム　】<br>
         削除対象番号：<input type="text" name="delete_num" placeholder="投稿番号"><br>
-        <!-- <input type="text" name="comment" placeholder="コメント"><br> -->
         <input type="submit" name="delete_submit" value="削除">
         <input type="hidden" name="formtype" value="deleteform" checked="checked">
     </form>
@@ -191,7 +187,6 @@
     <form action="" method="post" name="editform">
         【　編集番号指定用フォーム　】<br>
         編集対象番号：<input type="text" name="edit_num" placeholder="編集番号"><br>
-        <!-- <input type="text" name="comment" placeholder="コメント"><br> -->
         <input type="submit" name="edit_submit" value="編集">
         <input type="hidden" name="formtype" value="editform" checked="checked">
     </form>
