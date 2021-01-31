@@ -19,20 +19,17 @@
 
             // 投稿フォームの処理
             if ($sendform=='postform' && !empty($_POST['name']) && !empty($_POST['comment'] && !empty($_POST['post_pass']))) {
-                
-                // echo 'test';
+
                 // 変数定義
                 $name = $_POST["name"];
                 $comment = $_POST["comment"];
                 $postpass = $_POST["post_pass"];
-                // print_r($postpass);
     
                 date_default_timezone_set('Asia/Tokyo');
                 $date = date("Y/m/d H:i:s");
 
                 // editNoがないときは新規投稿
                 if (empty($_POST['editNo'])) {
-                    // echo 'test2';
                     $count = 1;
                     if(file_exists($filename)){
                         $items = file($filename, FILE_IGNORE_NEW_LINES);
@@ -58,17 +55,15 @@
                         fclose($fp);
                     } 
                 } else {
-                    // $edit_num = $_POST["edit_num"];
                     $editNo = $_POST['editNo'];
                     $editpass = $_POST['post_pass'];
-                    // print_r($editNo);
 
                     // 処理開始
                     if (file_exists($filename)){
                         // file_open
                         $fp = fopen($filename,"a");
 
-                        $copyfile = 'copyfile3-5.txt';
+                        $copyfile = 'copyfile5-1.txt';
 
                         // $filenameを$copyfileにコピー
                         copy($filename, $copyfile);
@@ -92,14 +87,9 @@
                                     $edit_number2 = $editNo;
                                     $edit_name2 = $name;
                                     $edit_comment2 = $comment;
-                                    // print_r($edit_number2);
-                                    // print_r($edit_name2);
-                                    // print_r($edit_comment2);
                                     
                                     $change_data = $edit_number2 . '<>' . $edit_name2 . '<>' . $edit_comment2 . 
                                     '<>' . $split_item[3] . '<>' . $split_item[4];
-                                    // print_r($split_item[3]);
-                                    // print_r($change_data);
                                     file_put_contents($filename, $change_data . PHP_EOL, FILE_APPEND);
                                 } else {
                                     file_put_contents($filename, $item . PHP_EOL, FILE_APPEND);
@@ -136,9 +126,8 @@
                             $split_item = explode('<>', $item);
                             $post_num = $split_item[0];
                             if ($post_num == $delete_num && $deletepass === $split_item[4]) {
-                                // file_put_contents($filename, $item . PHP_EOL, FILE_APPEND);
-                                echo 'test3';
-                            }else {
+                                // echo
+                            } else {
                                 file_put_contents($filename, $item . PHP_EOL, FILE_APPEND);
                             }
                         } 
@@ -150,37 +139,26 @@
                 }
             //編集フォーム
             } elseif ($sendform=='editform' && !empty($_POST['edit_num']) && !empty($_POST['edit_pass'])) {
-                // echo 'test';
                 // $edit_num = $_POST["edit_num"];
                 $editNo = $_POST['edit_num'];
                 $editpass = $_POST['edit_pass'];
-                // print_r($editNo);
 
                 // 処理開始
                 if (file_exists($filename)){
-                    // print_r($filename);
                     // file_open
                     $fp = fopen($filename,"r"); 
                     // $copyfileの中身を読み込んでいく
                     $items = file($filename, FILE_IGNORE_NEW_LINES);
-                    // print_r($items);
                     foreach($items as $item){
                         if (isset($item)) {
                             $split_item = explode('<>', $item);
-                            // print_r($split_item);
                             // 投稿番号を取得
                             $post_num = $split_item[0];
-                            // print_r($split_item[0]);
-                            // print_r($post_num);
-                            // print_r($editNo);
                             if ((int)$post_num == (int)$editNo && $editpass == $split_item[4]) {
                                 // 編集したいnameとcommentの値を取得
                                 $edit_number = $split_item[0];
                                 $edit_name = $split_item[1];
                                 $edit_comment = $split_item[2];
-                                // print_r($edit_name);
-                                // print_r($edit_comment);
-                                // print_r($edit_number);
                             }
                         } 
                     }
