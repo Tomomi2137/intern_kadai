@@ -17,7 +17,7 @@
             $sendform = $_POST['formtype'];
 
             // 投稿フォームの処理
-            if ($sendform=='postform' && !empty($_POST['name']) && !empty($_POST['comment'] && !empty($_POST['post_pass']))) {
+            if ($sendform==='postform' && !empty($_POST['name']) && !empty($_POST['comment'] && !empty($_POST['post_pass']))) {
 
                 // 変数定義
                 $name = $_POST["name"];
@@ -100,7 +100,7 @@
                     }
                 }
             // 削除フォームの処理
-            } elseif ($sendform=='deleteform' && !empty($_POST['delete_pass'] && !empty($_POST['delete_num']))){
+            } elseif ($sendform==='deleteform' && !empty($_POST['delete_pass'] && !empty($_POST['delete_num']))){
                 $delete_num = $_POST["delete_num"];
                 $deletepass = $_POST["delete_pass"];
 
@@ -137,7 +137,7 @@
                     // echo 'no file'; //fileがない場合にここに入る(確認済み)
                 }
             //編集フォーム
-            } elseif ($sendform=='editform' && !empty($_POST['edit_num']) && !empty($_POST['edit_pass'])) {
+            } elseif ($sendform==='editform' && !empty($_POST['edit_num']) && !empty($_POST['edit_pass'])) {
                 $edit_num = $_POST['edit_num'];
                 $edit_pass = $_POST['edit_pass'];
 
@@ -152,7 +152,7 @@
                             $split_item = explode('<>', $item);
                             // 投稿番号を取得
                             $post_num = $split_item[0];
-                            if ((int)$post_num == (int)$edit_num && $edit_pass == $split_item[4]) {
+                            if ((int)$post_num === (int)$edit_num && $edit_pass === $split_item[4]) {
                                 // 編集したいnameとcommentの値を取得
                                 $edit_number = $split_item[0];
                                 $edit_name = $split_item[1];
