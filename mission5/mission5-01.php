@@ -12,7 +12,6 @@
         $edit_name = '';
         $edit_comment = '';
 
-        // $pass = 'pass';
         // hidden_valueがあるかの判定
         if (isset($_POST['formtype'])) {
             $sendform = $_POST['formtype'];
@@ -139,9 +138,8 @@
                 }
             //編集フォーム
             } elseif ($sendform=='editform' && !empty($_POST['edit_num']) && !empty($_POST['edit_pass'])) {
-                // $edit_num = $_POST["edit_num"];
-                $editNo = $_POST['edit_num'];
-                $editpass = $_POST['edit_pass'];
+                $edit_num = $_POST['edit_num'];
+                $edit_pass = $_POST['edit_pass'];
 
                 // 処理開始
                 if (file_exists($filename)){
@@ -154,7 +152,7 @@
                             $split_item = explode('<>', $item);
                             // 投稿番号を取得
                             $post_num = $split_item[0];
-                            if ((int)$post_num == (int)$editNo && $editpass == $split_item[4]) {
+                            if ((int)$post_num == (int)$edit_num && $edit_pass == $split_item[4]) {
                                 // 編集したいnameとcommentの値を取得
                                 $edit_number = $split_item[0];
                                 $edit_name = $split_item[1];
