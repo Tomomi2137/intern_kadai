@@ -34,17 +34,13 @@
                         $items = file($filename, FILE_IGNORE_NEW_LINES);
                         // 投稿番号の付与
                         if (isset($items[0])){
-                            // itemsに含まれる一番最後の行を指定
                             $split_enditem = explode('<>', end($items));
-                            // 番号は配列の一番最初.また型がstring型なのでint型にキャスト
                             $end_num = (int)$split_enditem[0];
                             $count = $end_num + 1;
                         } else {
-                            // itemsがない最初の処理
                             $count = $count;
                         }
                     } 
-                    //変数定義終了
 
                     // 書き込み処理:追記
                     if ($name!='' && $comment!='' && $postpass!='') {
@@ -66,7 +62,6 @@
 
                         // $filenameを$copyfileにコピー
                         copy($filename, $copyfile);
-                        // print_r($filename);
     
                         // $fpを空にする
                         flock($fp, LOCK_EX);
@@ -79,7 +74,6 @@
                             if (isset($item)) {
                                 $split_item = explode('<>', $item);
                                 // 投稿番号を取得
-                                // print_r($split_item);
                                 $post_num = $split_item[0];
                                 if ($post_num == $editNo && $split_item[4] == $editpass) {
                                     // 編集したいnameとcommentの値を取得
@@ -108,7 +102,6 @@
                 if(file_exists($filename)){
                     // file_open
                     $fp = fopen($filename,"a"); 
-                    // $copyfile = 'copyfile3-5.txt';
 
                     // $filenameを$copyfileにコピー
                     copy($filename, $copyfile);
@@ -177,16 +170,16 @@
         【　投稿フォーム　】<br>
         名前 :　　　　<input type="text" name="name" placeholder="名前" value="<?php echo $edit_name; ?>"><br>
         コメント :　　<input type="text" name="comment" placeholder="コメント" value="<?php echo $edit_comment; ?>"><br>
-        password：  <input type="text" name="post_pass" placeholder="パスワード"><br>
-        <input type="text" name="editNo" value="<?php echo $edit_number; ?>">
+        password:  <input type="text" name="post_pass" placeholder="パスワード"><br>
+        <input type="hidden" name="editNo" value="<?php echo $edit_number; ?>">
         <input type="submit" name="submit" value="送信">
         <input type="hidden" name="formtype" value="postform" checked="checked">
     </form>
     <!--<p>【削除フォーム】</p>-->
     <form action="" method="post" name="deleteform">
         【　削除フォーム　】<br>
-        削除対象番号：<input type="text" name="delete_num" placeholder="投稿番号"><br>
-        password：  <input type="text" name="delete_pass" placeholder="パスワード"><br>
+        削除対象番号:<input type="text" name="delete_num" placeholder="投稿番号"><br>
+        password:  <input type="text" name="delete_pass" placeholder="パスワード"><br>
         <!-- <input type="text" name="comment" placeholder="コメント"><br> -->
         <input type="submit" name="delete_submit" value="削除">
         <input type="hidden" name="formtype" value="deleteform" checked="checked">
@@ -194,9 +187,9 @@
     <!-- 編集番号指定用フォーム -->
     <form action="" method="post" name="editform">
         【　編集番号指定用フォーム　】<br>
-        編集対象番号：<input type="text" name="edit_num" placeholder="編集番号"><br>
+        編集対象番号:<input type="text" name="edit_num" placeholder="編集番号"><br>
         <!-- <input type="text" name="comment" placeholder="コメント"><br> -->
-        password：  <input type="text" name="edit_pass" placeholder="パスワード"><br>
+        password:  <input type="text" name="edit_pass" placeholder="パスワード"><br>
         <input type="submit" name="edit_submit" value="編集">
         <input type="hidden" name="formtype" value="editform" checked="checked">
     </form>
