@@ -6,8 +6,25 @@
 </head>
 <body>
     <?php
-        $filename="mission5-1.txt";
-        $copyfile = 'copyfile5-1.txt';
+        // DB設定
+        $dsn = 'mysql:dbname=xxxxxxxxxxxxxxxdb;host=localhost';
+        $user = 'xxxxxxxxxxxxxxx';
+        $password = 'xxxxxxxxxxxxxxx';
+        $pdo = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
+
+        // テーブル作成
+        $sql = "CREATE TABLE IF NOT EXISTS mission5"
+        ." ("
+        . "id INT AUTO_INCREMENT PRIMARY KEY,"
+        . "name char(32),"
+        . "comment TEXT"
+        . "date DATETIME"
+        .");";
+    
+        $stmt = $pdo->query($sql);
+
+        // $filename="mission5-1.txt";
+        // $copyfile = 'copyfile5-1.txt';
         $edit_number = '';
         $edit_name = '';
         $edit_comment = '';
@@ -29,6 +46,7 @@
 
                 // editNoがないときは新規投稿
                 if (empty($_POST['editNo'])) {
+                    /*
                     $count = 1;
                     if(file_exists($filename)){
                         $items = file($filename, FILE_IGNORE_NEW_LINES);
@@ -40,14 +58,17 @@
                         } else {
                             $count = $count;
                         }
-                    } 
+                    } */
 
                     // 書き込み処理:追記
                     if ($name!='' && $comment!='' && $postpass!='') {
+                        /*
                         $fp = fopen($filename,"a");
                         $add_value = $count . '<>' . $name . '<>' . $comment . '<>' . $date . '<>' . $postpass . PHP_EOL;
                         fwrite($fp, $add_value);
                         fclose($fp);
+                        */
+
                     } 
                 } else {
                     $editNo = $_POST['editNo'];
@@ -165,7 +186,8 @@
             // 何もしない
         }
     ?>
-    <!--<p>【投稿フォーム】</p>-->
+    <!-- actionは特に記述がない場合は自己ファイルに投げられる -->
+    <!--投稿フォーム-->
     <form action="" method="post" name="postform">
         【　投稿フォーム　】<br>
         名前 :　　　　<input type="text" name="name" placeholder="名前" value="<?php echo $edit_name; ?>"><br>
@@ -175,7 +197,7 @@
         <input type="submit" name="submit" value="送信">
         <input type="hidden" name="formtype" value="postform" checked="checked">
     </form>
-    <!--<p>【削除フォーム】</p>-->
+    <!--削除フォーム-->
     <form action="" method="post" name="deleteform">
         【　削除フォーム　】<br>
         削除対象番号:<input type="text" name="delete_num" placeholder="投稿番号"><br>
@@ -193,6 +215,8 @@
         <input type="submit" name="edit_submit" value="編集">
         <input type="hidden" name="formtype" value="editform" checked="checked">
     </form>
+
+
     <?php
         // ブラウザへの表示
         if(file_exists($filename)){
