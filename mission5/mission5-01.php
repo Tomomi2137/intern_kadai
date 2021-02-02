@@ -294,8 +294,8 @@
             // echo $row['id'].',';
             // echo $row['name'].',';
             // echo $row['comment'].'<br>';
-            $date = SELECT DATE_FORMAT($row['datetime'], '%Y/%m/%d %k:%i:%s');
-            echo $row['id'].' '. $row['name'].' '. $row['comment'].' '. $date. '<br>';
+            // $date = "SELECT DATE_FORMAT($row['datetime'], '%Y/%m/%d %k:%i:%s') FROM mission5 ";
+            echo $row['id'].' '. $row['name'].' '. $row['comment'].' '. $row['datetime']. '<br>';
         echo "<hr>";
         }
         /*
