@@ -93,6 +93,21 @@
                 } else {
                     $editNo = $_POST['editNo'];
                     $editpass = $_POST['post_pass'];
+                    $id = $editNo; //変更する投稿番号
+                    
+                    // 既存のパスワード取得
+                    $existpass = 'SELECT password FROM mission5 WHERE id=:id ';
+                    
+                    if ($post_num == $editNo && $existpass == $editpass) {
+                        $sql = 'UPDATE mission5 SET name=:name,comment=:comment WHERE id=:id';
+                        $stmt = $pdo->prepare($sql);
+                        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+                        $stmt->bindParam(':comment', $comment, PDO::PARAM_STR);
+                        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                        $stmt->execute();
+                    }
+
+                    /*
 
                     // 処理開始
                     if (file_exists($filename)){
@@ -132,7 +147,9 @@
                         }
                         // file_close
                         fclose($fp);
-                    }
+                    }*/
+
+
                 }
             // 削除フォームの処理
             } elseif ($sendform==='deleteform' && !empty($_POST['delete_pass'] && !empty($_POST['delete_num']))){
