@@ -18,10 +18,21 @@
         . "id INT AUTO_INCREMENT PRIMARY KEY,"
         . "name char(32),"
         . "comment TEXT"
-        . "date DATETIME"
+        . "datetime DATETIME"
+        . "password TEXT"
         .");";
-    
+
         $stmt = $pdo->query($sql);
+
+        // テーブルの表示(デバッグ用)
+        /*
+        $sql ='SHOW TABLES';
+        $result = $pdo -> query($sql);
+        foreach ($result as $row){
+            echo $row[0];
+            echo '<br>';
+        }
+        echo "<hr>";*/
 
         // $filename="mission5-1.txt";
         // $copyfile = 'copyfile5-1.txt';
@@ -46,6 +57,7 @@
 
                 // editNoがないときは新規投稿
                 if (empty($_POST['editNo'])) {
+
                     /*
                     $count = 1;
                     if(file_exists($filename)){
@@ -69,7 +81,15 @@
                         fclose($fp);
                         */
 
+                        $sql = $pdo -> prepare("INSERT INTO mission5 (name, comment, datetime, password) VALUES (:name, :comment, :datetime, :password)");
+                        $sql -> bindParam(':name', $name, PDO::PARAM_STR);
+                        $sql -> bindParam(':comment', $comment, PDO::PARAM_STR);
+                        $sql -> bindParam(':datetime', $date, PDO::PARAM_STR);
+                        $sql -> bindParam(':password', $postpass, PDO::PARAM_STR);
+                    
+                        $sql -> execute();
                     } 
+                // 編集
                 } else {
                     $editNo = $_POST['editNo'];
                     $editpass = $_POST['post_pass'];
