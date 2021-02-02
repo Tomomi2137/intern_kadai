@@ -97,8 +97,8 @@
                     
                     // 既存のパスワード取得
                     $existpass = 'SELECT password FROM mission5 WHERE id=:id ';
-                    
-                    if ($post_num == $editNo && $existpass == $editpass) {
+
+                    if ($existpass == $editpass) {
                         $sql = 'UPDATE mission5 SET name=:name,comment=:comment WHERE id=:id';
                         $stmt = $pdo->prepare($sql);
                         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
@@ -156,6 +156,17 @@
                 $delete_num = $_POST["delete_num"];
                 $deletepass = $_POST["delete_pass"];
 
+                $id = $delete_num;
+
+                $existpass = 'SELECT password FROM mission5 WHERE id=$id ';
+                if ($deletepass === $existpass) {
+                    $sql = 'delete from mission5 where id=:id';
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                    $stmt->execute();
+                }
+
+                /*
                 // 処理開始
                 if(file_exists($filename)){
                     // file_open
@@ -187,11 +198,23 @@
                 } else {
                     // echo 'no file'; //fileがない場合にここに入る(確認済み)
                 }
+                */
             //編集フォーム
             } elseif ($sendform==='editform' && !empty($_POST['edit_num']) && !empty($_POST['edit_pass'])) {
                 $edit_num = $_POST['edit_num'];
-                $edit_pass = $_POST['edit_pass'];
+                $editpass = $_POST['edit_pass'];
+                $id = $edit_num;
 
+                $existpass = 'SELECT password FROM mission5 WHERE id=$id ';
+                if ($editpass === $existpass) {
+                    // 編集したいnameとcommentの値を取得
+                    $edit_number = $id;
+                    $edit_name = 'SELECT name FROM mission5 WHERE id=$id ';
+                    $edit_comment = 'SELECT comment FROM mission5 WHERE id=$id ';
+                }
+
+                
+                /*
                 // 処理開始
                 if (file_exists($filename)){
                     // file_open
@@ -203,7 +226,7 @@
                             $split_item = explode('<>', $item);
                             // 投稿番号を取得
                             $post_num = $split_item[0];
-                            if ((int)$post_num === (int)$edit_num && $edit_pass === $split_item[4]) {
+                            if ((int)$post_num === (int)$edit_num && $editpass === $split_item[4]) {
                                 // 編集したいnameとcommentの値を取得
                                 $edit_number = $split_item[0];
                                 $edit_name = $split_item[1];
@@ -216,6 +239,7 @@
                 } else {
                     // echo 'no file'; //fileがない場合にここに入る(確認済み)
                 }
+                */
             } else {
                 //  formが追加されたらここに処理を書く
             }
@@ -256,6 +280,25 @@
 
     <?php
         // ブラウザへの表示
+        // DB設定
+        $dsn = 'mysql:dbname=xxxxxxxxxxxxxxxdb;host=localhost';
+        $user = 'xxxxxxxxxxxxxxx';
+        $password = 'xxxxxxxxxxxxxxx';
+        $pdo = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING));
+
+        $sql = 'SELECT * FROM mission5';
+        $stmt = $pdo->query($sql);
+        $results = $stmt->fetchAll();
+        foreach ($results as $row){
+            //$rowの中にはテーブルのカラム名が入る
+            // echo $row['id'].',';
+            // echo $row['name'].',';
+            // echo $row['comment'].'<br>';
+            $date = SELECT DATE_FORMAT($row['datetime'], '%Y/%m/%d %k:%i:%s');
+            echo $row['id'].' '. $row['name'].' '. $row['comment'].' '. $date. '<br>';
+        echo "<hr>";
+        }
+        /*
         if(file_exists($filename)){
             $items = file($filename, FILE_IGNORE_NEW_LINES);
             foreach($items as $item){
@@ -266,7 +309,7 @@
                     //値がなければなにもしない
                 }
             }
-        }
+        }*/
     ?>
 </body>
 </html>
